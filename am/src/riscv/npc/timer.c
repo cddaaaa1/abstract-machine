@@ -1,12 +1,17 @@
 #include <am.h>
 
+// 仿真环境没有真实频率, 这里取实测的等效主频 (~2.7M cycles/s), 让 uptime 接近真实时间
+#define NPC_FREQ 2700000
+
 void __am_timer_init() {
 }
 
 void __am_timer_uptime(AM_TIMER_UPTIME_T *uptime) {
-  uint32_t lo = *(volatile uint32_t *)0x20000000ul;
-  uint32_t hi = *(volatile uint32_t *)0x20000004ul;
-  uptime->us = (uint64_t)hi << 32 | lo;
+  uint32_t lo, hi;
+  asm volatile ("csrr %0, mcycle"  : "=r"(lo));
+  asm volatile ("csrr %0, mcycleh" : "=r"(hi));
+  uint64_t cycles = (uint64_t)hi << 32 | lo;
+  uptime->us = cycles * 1000000 / NPC_FREQ;
 }
 
 void __am_timer_rtc(AM_TIMER_RTC_T *rtc) {
