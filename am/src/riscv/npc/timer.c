@@ -1,7 +1,7 @@
 #include <am.h>
 
-// 仿真环境没有真实频率, 这里取实测的等效主频 (~2.7M cycles/s), 让 uptime 接近真实时间
-#define NPC_FREQ 2700000
+// NPC 综合频率 (ECC 综合结果 380 MHz), 用于把 mcycle 换算成时间
+#define NPC_FREQ 380000000
 
 void __am_timer_init() {
 }
