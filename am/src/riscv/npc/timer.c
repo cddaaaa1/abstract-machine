@@ -1,8 +1,8 @@
 #include <am.h>
 
-// NPC 综合频率 (ECC 综合结果 380 MHz), 用于把 mcycle 换算成时间
-// #define NPC_FREQ 380000000
+#ifndef NPC_FREQ
 #define NPC_FREQ 25000000
+#endif
 
 void __am_timer_init() {
 }

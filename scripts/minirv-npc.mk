@@ -9,6 +9,9 @@ CXX = minirv-g++
 COMMON_CFLAGS += -march=rv32e_zicsr -mabi=ilp32e  # overwrite
 LDFLAGS       += -melf32lriscv                    # overwrite
 
+NPC_FREQ ?= 380000000
+CFLAGS   += -DNPC_FREQ=$(NPC_FREQ)
+
 AM_SRCS += riscv/npc/libgcc/div.S \
            riscv/npc/libgcc/muldi3.S \
            riscv/npc/libgcc/multi3.c \
