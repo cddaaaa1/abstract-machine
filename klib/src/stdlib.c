@@ -48,6 +48,30 @@ int atoi(const char* nptr) {
   return strtol(nptr, NULL, 10);
 }
 
+int itoa(char *str, int value , int radix){
+  char digits[16]; 
+  int count = 0;
+  int len = 0;
+  unsigned int magnitude = (unsigned int)value;
+
+  if (value < 0) {
+    str[len ++] = '-';
+    magnitude = 0u - magnitude; 
+  }
+
+  do {
+    digits[count ++] = '0' + magnitude % radix;
+    magnitude /= 10;
+  } while (magnitude != 0);
+
+  while (count > 0) {
+    str[len ++] = digits[-- count];
+  }
+  str[len] = '\0';
+  return len;
+}
+
+
 void *malloc(size_t size) {
   // On native, malloc() will be called during initializaion of C runtime.
   // Therefore do not call panic() here, else it will yield a dead recursion:

@@ -35,6 +35,7 @@ unsigned      long strtoul  (const char *nptr, char **endptr, int base);
          long long strtoll  (const char *nptr, char **endptr, int base);
 unsigned long long strtoull (const char *nptr, char **endptr, int base);
 int    atoi      (const char *nptr);
+int    itoa      (char *str, int value, int radix);
 void  *malloc    (size_t size);
 void  *calloc    (size_t nmemb, size_t size);
 void  *realloc   (void *ptr, size_t size);

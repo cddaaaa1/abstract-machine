@@ -11,11 +11,50 @@ int vprintf(const char *fmt, va_list ap) {
 }
 
 int vsprintf(char *out, const char *fmt, va_list ap) {
-  panic("Not implemented");
+  int len = 0;
+  while (*fmt) {
+    char ch = *fmt ++;
+    if (ch != '%') {
+      *out ++ = ch;
+      len ++;
+      continue;
+    }
+
+    ch = *fmt ++;
+    switch (ch) {
+      case 'd': {
+        int value = va_arg(ap, int);
+        int written = itoa(out, value, 10);
+        out += written;
+        len += written;
+        break;
+      }
+      case 's': {
+        const char *s = va_arg(ap, char *);
+        while (*s) {
+          *out ++ = *s ++;
+          len ++;
+        }
+        break;
+      }
+      case '%':
+        *out ++ = '%';
+        len ++;
+        break;
+      default:
+        panic("Unsupported format specifier");
+    }
+  }
+  *out = '\0';
+  return len;
 }
 
 int sprintf(char *out, const char *fmt, ...) {
-  panic("Not implemented");
+  va_list ap;
+  va_start(ap, fmt);
+  int len = vsprintf(out, fmt, ap);
+  va_end(ap);
+  return len;
 }
 
 int snprintf(char *out, size_t n, const char *fmt, ...) {
